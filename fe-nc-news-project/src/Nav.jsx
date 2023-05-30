@@ -1,4 +1,4 @@
-export default function Nav() {
+function Nav() {
     return (
         <nav>
         <h1>NC News</h1>
@@ -7,3 +7,5 @@ export default function Nav() {
         </nav>
     )
 }
+
+export default Nav
