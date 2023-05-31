@@ -1,36 +1,45 @@
 import { useEffect, useState } from "react";
 import { fetchArticles } from "./utils.js";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    fetchArticles().then(() => {
-      setArticles();
+  const [isLoading, setIsLoading] = useState(true)
+   useEffect(() => {
+    fetchArticles().then(({ data }) => {
+      setArticles(data.articles);
+      setIsLoading(false)
     });
   }, []);
 
+  function handleClick() {
+    setArticles();
+  }
+
   return (
     <>
-      {/* <ul>
+    {isLoading ? <p>Loading...</p>:  <ul>
         {articles.map(
           ({ article_id, title, author, votes, article_img_url }) => {
-            <Link key={article_id} to={`/items/${article_id}`}>
-              <li onClick={handleClick}>
-                <img
-                  className="article-image"
-                  src={article_img_url}
-                  alt={title}
-                ></img>
-                <span>
-                  {title} by {author} • {votes}
-                </span>
-              </li>
-            </Link>;
+            return (
+              <Link key={article_id} to={`/articles/${article_id}`}>
+                <li>
+                  <img
+                    className="article-image"
+                    src={article_img_url}
+                    alt={title}
+                  ></img>
+                  <span>
+                    {title}
+                    <br></br>
+                    <br></br>by {author} • Votes: {votes}
+                  </span>
+                </li>
+              </Link>
+            );
           }
         )}
-      </ul> */}
+      </ul>}
     </>
   );
 }
