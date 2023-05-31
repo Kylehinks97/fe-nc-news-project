@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
+  const [isLoading, setIsLoading] = useState(true)
+   useEffect(() => {
     fetchArticles().then(({ data }) => {
       setArticles(data.articles);
+      setIsLoading(false)
     });
   }, []);
 
@@ -17,7 +18,7 @@ export default function Home() {
 
   return (
     <>
-      <ul>
+    {isLoading ? <p>Loading...</p>:  <ul>
         {articles.map(
           ({ article_id, title, author, votes, article_img_url }) => {
             return (
@@ -38,7 +39,7 @@ export default function Home() {
             );
           }
         )}
-      </ul>
+      </ul>}
     </>
   );
 }
