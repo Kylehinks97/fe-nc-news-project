@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { fetchArticlesById } from "./utils"
 import { useEffect, useState } from 'react';
+import Comments from "./Comments.jsx"
 
 
 export default function Article() {
@@ -27,6 +28,7 @@ export default function Article() {
         <p>Votes: {article.votes}</p>
         </>
     }
+    <Comments />
         </>
     )
 }
