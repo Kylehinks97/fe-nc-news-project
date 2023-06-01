@@ -61,4 +61,10 @@ nav {
     flex-direction: row;
     flex-wrap: wrap;
   }
+  .no-comments {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
 }

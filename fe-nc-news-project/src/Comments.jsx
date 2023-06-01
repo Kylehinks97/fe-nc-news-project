@@ -18,7 +18,7 @@ export default function Comments() {
       <input></input>
       <h3>Comments</h3>
       {comments.length === 0 ? (
-        <p>No Comments</p>
+        <p className="no-comments">No Comments</p>
       ) : (
         comments.map((comment) => {
           const formattedDate = new Date(comment.created_at).toLocaleString();
