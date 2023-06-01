@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCommentsByArticleId } from "./utils";
+import Article from "./Article";
 
 export default function Comments() {
   const [comments, setComments] = useState([]);
