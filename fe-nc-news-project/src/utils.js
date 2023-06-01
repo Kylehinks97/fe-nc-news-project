@@ -23,3 +23,12 @@ export function fetchArticlesById(article_id) {
         console.log(err, "request error");
     })
 }
+
+export function fetchCommentsByArticleId(article_id) {
+    return api.get(`/articles/${article_id}/comments`)
+    .then((result) => {
+        return result
+    }).catch((err) => {
+        console.log(err, "request error");
+    })
+}
