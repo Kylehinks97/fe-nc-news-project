@@ -7,41 +7,52 @@ export default function Article() {
   const [article, setArticle] = useState([]);
   const { article_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [voteCount, setVoteCount] = useState(10);
-  const [voteDirection, setVoteDirection] = useState(null);
   const [failedVote, setFailedVote] = useState(null);
+  const [voteCount, setVoteCount] = useState(null);
+  const [pressedUp, setPressedUp] = useState(false);
+  const [pressedDown, setPressedDown] = useState(false);
+  const [previousVote, setPreviousVote] = useState(null);
 
   useEffect(() => {
     fetchArticlesById(article_id).then((result) => {
       setArticle(result.data.article);
+      setVoteCount(result.data.article.votes);
       setIsLoading(false);
     });
   }, [article_id]);
 
   function handleVote(direction) {
-    setVoteCount((currentCount) => {
-      if (direction === "up") {
-        return currentCount + 1;
+    let voteChange;
+    if (direction === "up") {
+      if (previousVote === "down") {
+        voteChange = 2;
       } else {
-        return currentCount - 1;
+        voteChange = 1;
       }
-    });
-    setVoteDirection(direction);
-  }
-
-  useEffect(() => {
-    if (voteDirection === "up") {
-      updateArticleVotes("up", article_id)
-        .catch((err) => {
-          setFailedVote(true);
-        });
-    } else if (voteDirection === "down") {
-      updateArticleVotes("down", article_id)
-        .catch((err) => {
-          setFailedVote(true);
-        });
+      setPressedUp(true);
+      setPressedDown(false);
+      setPreviousVote("up");
+    } else {
+      if (previousVote === "up") {
+        voteChange = -2;
+      } else {
+        voteChange = -1;
+      }
+      setPressedUp(false);
+      setPressedDown(true);
+      setPreviousVote("down");
     }
-  }, [voteCount, voteDirection]);
+
+    const voteObj = { inc_votes: voteChange };
+
+    updateArticleVotes(voteObj, article_id)
+      .then(() => {
+        setVoteCount((currentCount) => currentCount + voteChange);
+      })
+      .catch((err) => {
+        setFailedVote(true);
+      });
+  }
 
   return (
     <>
@@ -56,10 +67,18 @@ export default function Article() {
           {failedVote && <p>Vote failed, sorry :L</p>}
           <p>Do you like this article?</p>
           <p>Votes: {voteCount}</p>
-          <button className="vote-button" onClick={() => handleVote("up")}>
+          <button
+            disabled={pressedUp}
+            className="vote-button-up"
+            onClick={() => handleVote("up")}
+          >
             ↑
           </button>
-          <button className="vote-button" onClick={() => handleVote("down")}>
+          <button
+            disabled={pressedDown}
+            className="vote-button-down"
+            onClick={() => handleVote("down")}
+          >
             ↓
           </button>
         </>
@@ -67,5 +86,4 @@ export default function Article() {
       <Comments />
     </>
   );
-  
 }
