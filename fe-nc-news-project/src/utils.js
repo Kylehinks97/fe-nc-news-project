@@ -21,7 +21,6 @@ export function fetchCommentsByArticleId(article_id) {
 }
 export function updateArticleVotes(obj, article_id) {
   return api.patch(`/articles/${article_id}`, obj).then((result) => {
-    console.log(result.data.article.votes, "<-- in the util");
     return result;
   });
 }
