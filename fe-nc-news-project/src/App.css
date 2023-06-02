@@ -4,6 +4,13 @@ ul {
   list-style-type: none;
 }
 
+.vote-button-up:hover {
+  background-color: yellowgreen;
+}
+.vote-button-down:hover {
+  background-color: rgba(150, 29, 53, 0.56);
+}
+
 li {
   display: grid;
   grid-template-rows: auto 1fr;
