@@ -24,7 +24,6 @@ export function updateArticleVotes(obj, article_id) {
     return result;
   });
 }
-
 export function postComment(article_id, commentToPost) {
   return api
     .post(`/articles/${article_id}/comments`, commentToPost)
@@ -32,3 +31,12 @@ export function postComment(article_id, commentToPost) {
       return result;
     })
 }
+export function removeComment(comment_id) {
+  return api
+  .delete(`/comments/${comment_id}`)
+  .then((result) => {
+    console.log(result);
+    return result
+  })
+}
+
