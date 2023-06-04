@@ -3,7 +3,8 @@ import { fetchArticlesById, updateArticleVotes } from "./utils";
 import { useEffect, useState } from "react";
 import Comments from "./Comments.jsx";
 
-export default function Article() {
+export default function Article({username}) {
+  console.log(username);
   const [article, setArticle] = useState([]);
   const { article_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +84,7 @@ export default function Article() {
           </button>
         </>
       )}
-      <Comments />
+      <Comments username={username}/>
     </>
   );
 }
