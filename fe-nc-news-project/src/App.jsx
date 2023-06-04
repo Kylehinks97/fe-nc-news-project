@@ -17,7 +17,7 @@ function App() {
         <Nav username={username} loggedInAlready={loggedInAlready} setLoggedInAlready={setLoggedInAlready}/>
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/articles/:article_id" element={<Article username={username}/>} />
+          <Route path="/articles/:article_id" element={<Article username={username} />} />
           <Route path="/" element={<Login username = {username} loggedInAlready={loggedInAlready} setLoggedInAlready= {setLoggedInAlready} setUsername={setUsername}/>} />
         </Routes>
       </BrowserRouter>

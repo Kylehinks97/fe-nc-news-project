@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCommentsByArticleId, postComment, removeComment } from "./utils";
 import Article from "./Article";
+import { Link } from "react-router-dom";
 
 export default function Comments({ username }) {
   const [comments, setComments] = useState([]);
@@ -11,8 +12,15 @@ export default function Comments({ username }) {
   const [posted, setPosted] = useState(false);
   const { article_id } = useParams();
   const [emptyComment, setEmptyComment] = useState(false)
-  
+  const [loggedInYet, setLoggedInYet] = useState(null)
 
+  useEffect(() => {
+    if (username === "") {
+      setLoggedInYet(false);
+    } else {
+      setLoggedInYet(true);
+    }
+  })
   const id = article_id;
 
   useEffect(() => {
@@ -44,12 +52,16 @@ export default function Comments({ username }) {
       console.log(commentText);
     });
   } else {
-    setEmptyComment(true)
-    setTimeout(() => {
-      setEmptyComment(false)
-    }, 3000)
+      
+      setEmptyComment(true)
+      setTimeout(() => {
+        setEmptyComment(false)
+      }, 3000)
+    
   }
   }
+
+console.log(loggedInYet);
 
   function handleChange(e) {
     const updatedCommentText = e.target.value;
@@ -74,14 +86,16 @@ export default function Comments({ username }) {
         <p>Loading Comments...</p>
       ) : (
         <>
+      
           {posting && username !== "" && <p>Posting comment, please wait...</p>}
           {posted && <p>Posted, thanks for waiting</p>}
           {emptyComment && <p>Cannot post empty comments!</p>}
-          <form>
+          {loggedInYet ? <form>
             <label htmlFor="comment-input">Post Comment:</label>
             <input value={commentText} id="comment-input" onChange={handleChange}></input>
             <button onClick={submitComment}>Submit</button>
-          </form>
+          </form> : <p><Link to={"/"}><span>Log in</span></Link> to join the discussion!</p>}
+          
 
           <h3>Comments</h3>
           {comments.length === 0 ? (

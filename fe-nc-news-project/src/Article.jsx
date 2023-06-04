@@ -3,7 +3,7 @@ import { fetchArticlesById, updateArticleVotes } from "./utils";
 import { useEffect, useState } from "react";
 import Comments from "./Comments.jsx";
 
-export default function Article({username}) {
+export default function Article({username, loggedIn, setLoggedIn}) {
   console.log(username);
   const [article, setArticle] = useState([]);
   const { article_id } = useParams();
